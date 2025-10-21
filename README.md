@@ -1,7 +1,7 @@
 # Express API with Postgree (TypeScript + Docker)
 
-This project is a RESTful API built with **Express**, **Postgree**, and **TypeScript**.
-It includes a **Docker Compose** configuration for running Postgree locally and provides a ready-to-use Postman collection in YAML format for API testing.
+This project is a RESTful API built with **Express**, **Postgres**, and **TypeScript**.
+It includes a **Docker Compose** configuration for running Postgres locally and provides a ready-to-use Postman collection in YAML format for API testing.
 
 ---
 
@@ -21,7 +21,7 @@ Before starting, make sure you have installed:
 
    ```bash
    git clone https://github.com/danbasco/express-api-postgresql.git
-   cd express-api-mongodb
+   cd express-api-postgresql
    ```
 
 2. **Install dependencies**
@@ -40,12 +40,12 @@ Before starting, make sure you have installed:
    * Edit `.env` to include your JWT secret:
 
      ```env
-    POSTGRES_USER=postgres
-    POSTGRES_PASSWORD=postgres
-    POSTGRES_DB=postgres
-    POSTGRES_HOST=localhost
-    POSTGRES_PORT= 5432
-    JWT_SECRET=your_generated_secret
+      POSTGRES_USER=postgres
+      POSTGRES_PASSWORD=postgres
+      POSTGRES_DB=postgres
+      POSTGRES_HOST=localhost
+      POSTGRES_PORT=5432
+      JWT_SECRET=your_generated_secret
      ```
    * You can generate a secure key with:
 
@@ -65,11 +65,9 @@ npm run start:database
 
 This command will:
 
-* Start a **Postgree** container at `localhost:27017`
-* Start **Mongo Express** (web UI) at [http://localhost:8081](http://localhost:8081)
+* Start a **Postgree** container at `localhost:5432`
+* Start **PGAdmin** (web UI) at [http://localhost:5050](http://localhost:5050)
 
-  * Username: `mongoexpressuser`
-  * Password: `mongoexpresspass`
 
 To stop the containers:
 
@@ -104,7 +102,7 @@ http://localhost:3000
 
 ## API Testing
 
-You can test all API routes using Postman or Hoppscotch.
+You can test all API routes using Postman, Hoppscotch or Insomnia.
 
 1. Open the file:
 
@@ -135,7 +133,7 @@ Vercel will automatically detect the entry point (`api/index.ts`) and deploy it 
 | `npm run dev`                 | Run API in watch mode using `tsx`        |
 | `npm start`                   | Start the compiled API                   |
 | `npm run build`               | Compile TypeScript to JavaScript         |
-| `npm run start:database`      | Run MongoDB and Mongo Express via Docker |
+| `npm run start:database`      | Run PostgreSQL and PGAdmin via Docker    |
 | `npm run generate-secret-key` | Generate a random 32-byte JWT secret     |
 | `npm test`                    | Run tests (placeholder)                  |
 
@@ -145,13 +143,13 @@ Vercel will automatically detect the entry point (`api/index.ts`) and deploy it 
 
 * TypeScript improves code maintainability and type safety.
 * Docker Compose ensures consistent local database setup.
-* Mongo Express allows you to visually explore your database.
+* PGAdmin allows you to visually explore your database.
 
 ---
 
 ## Tutorial Video
 
 A complete walkthrough of the project API and usage is available here:
-[YouTube Tutorial](https://youtu.be/MPKciL0R5kQ)
+[YouTube Tutorial](https://youtu.be/dQw4w9WgXcQ?si=dY1RaEDnPkLwtqVI)
 
 ---
