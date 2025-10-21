@@ -42,7 +42,7 @@ Before starting, make sure you have installed:
      ```env
       POSTGRES_USER=postgres
       POSTGRES_PASSWORD=postgres
-      POSTGRES_DB=postgres
+      POSTGRES_DATABASE=postgres
       POSTGRES_HOST=localhost
       POSTGRES_PORT=5432
       JWT_SECRET=your_generated_secret
@@ -65,7 +65,7 @@ npm run start:database
 
 This command will:
 
-* Start a **Postgree** container at `localhost:5432`
+* Start a **Postgres** container at `localhost:5432`
 * Start **PGAdmin** (web UI) at [http://localhost:5050](http://localhost:5050)
 
 
