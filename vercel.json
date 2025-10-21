@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "express-api-mongodb",
+  "name": "express-api-postgresql",
   "builds": [
     {
       "src": "api/index.ts",
