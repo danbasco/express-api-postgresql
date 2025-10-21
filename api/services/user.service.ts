@@ -1,7 +1,8 @@
-import User, { IUser } from "../models/User.js";
+import { where } from "sequelize";
+import db from "../models/index.js";
+import { IUser } from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Types } from "mongoose";
 
 
 interface ResponseType {
@@ -10,13 +11,15 @@ interface ResponseType {
     data?: any;
 }
 
-const createJWT = (uid: Types.ObjectId | string) => {
-    const id = typeof uid === "string" ? uid : uid.toString();
-    return jwt.sign({ id }, process.env.JWT_SECRET || "secret", { expiresIn: "1d" });
+const createJWT = (uid: string | number) => {
+    return jwt.sign({ id: uid }, process.env.JWT_SECRET || "secret", { expiresIn: "1d" });
 };
 
-const locateUserByEmail = async (email: string) => {
-    return await User.findOne({ email }).select('+password');
+const locateUserByEmail = async (email: string, includePassword: boolean = false) => {
+    return await db.users.findOne({ 
+        where: { email },
+        attributes: includePassword ? undefined : { exclude: ['password'] } 
+    });
 };
 
 const isValidEmail = (email: string): boolean => {
@@ -90,10 +93,11 @@ export const registerService = async (data: IUser): Promise<ResponseType> => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(data.password, salt);
 
-        const user = new User({ 
+        const user = await db.users.create({ 
             name: data.name, 
             email: data.email,
-            password: hashedPassword });
+            password: hashedPassword
+        });
 
         await user.save();
         return { status: 201, message: "User registered successfully.", data: { name: user.name, email: user.email } };
@@ -109,7 +113,7 @@ export const loginService = async (data: IUser): Promise<ResponseType> => {
             return { status: 400, message: "Email and password are required." };
         }
 
-        const user = await locateUserByEmail(data.email);
+        const user = await locateUserByEmail(data.email, true);
         if (!user) {
             console.log("User not found with email:", data.email);
             return { status: 404, message: "User not found." };
@@ -124,7 +128,7 @@ export const loginService = async (data: IUser): Promise<ResponseType> => {
 
        const token = createJWT(user._id);
 
-        return { status: 200, message: "Login successful.", data: { name: user.name, email: user.email, token: token } };
+        return { status: 200, message: "Login successfull.", data: { name: user.name, email: user.email, token: token } };
 
     } catch (error) {
         return { status: 500, message: "Internal server error." };

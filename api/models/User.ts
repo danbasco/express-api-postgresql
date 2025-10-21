@@ -1,29 +1,30 @@
-import mongoose, { Schema, model, Model } from 'mongoose';
-
 export interface IUser {
     name: string;
     password: string;
     email: string;
 }
 
-const UserSchema: Schema<IUser> = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        
-    },
-    password: {
-        type: String,
-        required: true,
-        select: false, // do not return password field by default
-    }, 
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    }
-});
+export default (sequelize: any, Sequelize: any) => {
+    const User = sequelize.define("user", {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        password: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        email: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            unique: true
+        }
+    });
 
-const User : Model<IUser> = model("User", UserSchema);
-
-export default User;
+    return User;
+};

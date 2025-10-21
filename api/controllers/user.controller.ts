@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import { registerService, loginService } from "../services/user.service.js";
-import User, { IUser } from "../models/User.js";
+import db from "../models/index.js";
+import { IUser } from "../models/User.js";
 
+const User = db.user;
 
 export const registerController = async (req: Request<any, any, IUser>, res: Response) => {
 

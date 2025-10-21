@@ -1,7 +1,7 @@
 # Express API with Postgree (TypeScript + Docker)
 
-This project is a RESTful API built with **Express**, **MongoDB**, and **TypeScript**.
-It includes a **Docker Compose** configuration for running MongoDB locally and provides a ready-to-use Postman collection in YAML format for API testing.
+This project is a RESTful API built with **Express**, **Postgree**, and **TypeScript**.
+It includes a **Docker Compose** configuration for running Postgree locally and provides a ready-to-use Postman collection in YAML format for API testing.
 
 ---
 
@@ -20,7 +20,7 @@ Before starting, make sure you have installed:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/express-api-mongodb.git
+   git clone https://github.com/danbasco/express-api-postgresql.git
    cd express-api-mongodb
    ```
 
@@ -40,9 +40,12 @@ Before starting, make sure you have installed:
    * Edit `.env` to include your JWT secret:
 
      ```env
-     MONGODB_URI=mongodb://root:example@localhost:27017
-     MONGODB_DB_NAME=example
-     JWT_SECRET=your_generated_secret
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=postgres
+    POSTGRES_DB=postgres
+    POSTGRES_HOST=localhost
+    POSTGRES_PORT= 5432
+    JWT_SECRET=your_generated_secret
      ```
    * You can generate a secure key with:
 
@@ -62,7 +65,7 @@ npm run start:database
 
 This command will:
 
-* Start a **MongoDB** container at `localhost:27017`
+* Start a **Postgree** container at `localhost:27017`
 * Start **Mongo Express** (web UI) at [http://localhost:8081](http://localhost:8081)
 
   * Username: `mongoexpressuser`
