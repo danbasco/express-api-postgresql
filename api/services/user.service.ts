@@ -1,4 +1,3 @@
-import { where } from "sequelize";
 import db from "../models/index.js";
 import { IUser } from "../models/User.js";
 import bcrypt from "bcrypt";
@@ -11,8 +10,8 @@ interface ResponseType {
     data?: any;
 }
 
-const createJWT = (uid: string | number) => {
-    return jwt.sign({ id: uid }, process.env.JWT_SECRET || "secret", { expiresIn: "1d" });
+const createJWT = (uid: string | number, email: string) => {
+    return jwt.sign({ id: uid, email }, process.env.JWT_SECRET || "secret", { expiresIn: "1d" });
 };
 
 const locateUserByEmail = async (email: string, includePassword: boolean = false) => {
@@ -25,12 +24,6 @@ const locateUserByEmail = async (email: string, includePassword: boolean = false
 const isValidEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-}
-
-const isValidPassword = (password: string): boolean => {
-    // At least 8 characters, one uppercase, one lowercase, one number and one special character
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_.])[A-Za-z\d@$!%*?&_.]{8,}$/;
-    return passwordRegex.test(password);
 }
 
 const validatePassword = (password: string): { valid: boolean; message?: string } => {
@@ -99,7 +92,6 @@ export const registerService = async (data: IUser): Promise<ResponseType> => {
             password: hashedPassword
         });
 
-        await user.save();
         return { status: 201, message: "User registered successfully.", data: { name: user.name, email: user.email } };
     } catch (error) {
         return { status: 500, message: "Internal server error." };
@@ -126,7 +118,7 @@ export const loginService = async (data: IUser): Promise<ResponseType> => {
         }
         console.log("User logged in successfully:", data.email);
 
-       const token = createJWT(user._id);
+       const token = createJWT(user.id, user.email);
 
         return { status: 200, message: "Login successfull.", data: { name: user.name, email: user.email, token: token } };
 
