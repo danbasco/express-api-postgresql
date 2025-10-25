@@ -1,6 +1,7 @@
 import configdb from "../config/db.config.js";
 import { Sequelize } from "sequelize";
 import User from "./User.js";
+import Book from "./Book.js";
 import pg from "pg";
 
 const useSsl = process.env.DB_SSL === 'true' || process.env.NODE_ENV === 'production' || (configdb.HOST !== 'localhost' && configdb.HOST !== '127.0.0.1');
@@ -30,10 +31,11 @@ const sequelize = new Sequelize(
     }
 );
 
-const db: any = {Sequelize, sequelize, users: {}};
+const db: any = {Sequelize, sequelize, users: {}, books: {} };
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.users = User(sequelize, Sequelize);
+db.books = Book(sequelize, Sequelize);
 
 export default db;
