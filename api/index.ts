@@ -5,6 +5,7 @@ import userRoute from "./routes/user.route.js";
 import protectedRoute from "./routes/protected.route.js";
 import bookRoute from "./routes/book.route.js";
 import { errorHandler } from "./middlewares/errors.middleware.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ try {
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/auth", userRoute);
 app.use("/protected", protectedRoute);
